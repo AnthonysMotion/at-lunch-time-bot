@@ -13,7 +13,7 @@ class misc(commands.Cog):
 
   @app_commands.command(name = "about", description = "About Lunch Time")
   async def about(self, interaction: discord.Interaction):
-    em = discord.Embed(title = "About", description = "Lunch Time is an easy to use, multipurpose bot that aims to bring outside functions into Discord through the use of slash commands.\n\nFor example: instead of opening Google and searching up 'How far are we into the year?' then finding a website, just type </yearprogress:1050348276030898196> and you'll get the same result quicker.\n\nFollow development: https://github.com/AnthonysMotion/at-lunch-time-bot\n\nGet started: </help:1050366133917720647>")
+    em = discord.Embed(title = "About", description = "Lunch Time is an easy to use, multipurpose bot that aims to bring outside functions into Discord through the use of slash commands; all packaged in a lightweight bot with a cat having lunch as its mascot.\n\nFor example: instead of opening Google and searching up 'How far are we into the year?' then finding a website, just type </yearprogress:1050348276030898196> and you'll get the same result quicker.\n\nFollow development: https://github.com/AnthonysMotion/at-lunch-time-bot\n\nGet started: </help:1050366133917720647>")
     em.set_author(name = "Lunch Time", url = 'https://anthonythach.com/', icon_url = 'https://i.imgur.com/E0u8ceW.png')
     em.set_footer(text='anthonythach.com',icon_url="https://i.imgur.com/BjKLqF7.png")
     em.set_image(url='https://media.tenor.com/i-xS-A_DTCEAAAAM/pizza-food.gif')
