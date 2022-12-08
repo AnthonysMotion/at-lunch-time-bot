@@ -1,9 +1,15 @@
+# Discord
 import discord
+from discord import app_commands
 from discord.ext import commands
-import token
+
+# Misc
 import json
 
-bot = commands.Bot(command_prefix='.')
+
+intents = discord.Intents.default()
+bot = discord.Client(intents=intents)
+tree = app_commands.CommandTree(bot)
 
 @bot.command()
 async def ping(ctx):
