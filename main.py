@@ -3,7 +3,7 @@ from discord.ext import commands
 import token
 import json
 
-bot = commands.Bot(command_prefix=None)
+bot = commands.Bot(command_prefix='.')
 
 @bot.command()
 async def ping(ctx):
