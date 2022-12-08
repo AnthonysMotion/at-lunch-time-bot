@@ -2,7 +2,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-
 import datetime
 
 class help(commands.Cog):
@@ -14,12 +13,13 @@ class help(commands.Cog):
   @app_commands.choices(command=[Choice(name="all",value='all')])
   async def help(self, interaction: discord.Interaction, command: str):
     if command == 'all':
-      await interaction.response.send_message("```ahk\n  /define\n  /yearprogress```", ephemeral=True)
+      await interaction.response.send_message("```ahk\n  /define\n  /yearprogress\n  /run```", ephemeral=True)
     if command == 'define' or command == 'Define':
       await interaction.response.send_message("```ahk\nExample usage:\n  /define <word>\n  /define discord```", ephemeral=True)
     if command == 'yearprogress' or command == 'YearProgress' or command == 'Yearprogress':
       await interaction.response.send_message("```ahk\nExample usage:\n  /yearprogress```", ephemeral=True)
-
+    if command == 'run' or command == 'Run':
+      await interaction.response.send_message("```ahk\nExample usage:\n  /run <lang> <code>\n  /run python print('Hello world')```", ephemeral=True)
 
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(

@@ -2,18 +2,18 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-
 import datetime
 import requests
+from pyston import PystonClient, File #upm package(aiopyston)
+from discord import ui
 
 class misc(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
 
-
   @app_commands.command(name = "about", description = "About Lunch Time")
   async def about(self, interaction: discord.Interaction):
-    em = discord.Embed(title = "About", description = "Lunch Time is an easy to use, multipurpose bot that aims to bring outside functions into Discord through the use of slash commands.\n\nFor example: instead of opening Google and searching up 'How far are we into the year?' then finding a website, just type </yearprogress:1050348276030898196> and you'll get the same result quicker.\n\nGet started: </help:1050366133917720647>")
+    em = discord.Embed(title = "About", description = "Lunch Time is an easy to use, multipurpose bot that aims to bring outside functions into Discord through the use of slash commands.\n\nFor example: instead of opening Google and searching up 'How far are we into the year?' then finding a website, just type </yearprogress:1050348276030898196> and you'll get the same result quicker.\n\nFollow development: https://github.com/AnthonysMotion/at-lunch-time-bot\n\nGet started: </help:1050366133917720647>")
     em.set_author(name = "Lunch Time", url = 'https://anthonythach.com/', icon_url = 'https://i.imgur.com/E0u8ceW.png')
     em.set_footer(text='anthonythach.com',icon_url="https://i.imgur.com/BjKLqF7.png")
     em.set_image(url='https://media.tenor.com/i-xS-A_DTCEAAAAM/pizza-food.gif')
@@ -35,6 +35,12 @@ class misc(commands.Cog):
     data = response.json()
     definition = data[0]['meanings'][0]['definitions'][0]['definition']
     await interaction.response.send_message(f"```Definition of {word.title()}``` {definition}")
+  
+  @app_commands.command(name = "run", description = "Runs multiple lines of code in 20+ languages, all in Discord")
+  async def run(self, interaction: discord.Interaction, lang: str, code: str):
+    client = PystonClient()
+    output = await client.execute(f"{lang}", [File(f"{code}")])
+    await interaction.response.send_message(f"```{output}```")
 
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(

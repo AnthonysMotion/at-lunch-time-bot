@@ -6,8 +6,10 @@ authors = ["Replit user <<>>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-replit = "^3.2.5"
 discord = "^2.1.0"
+Flask = "^2.2.2"
+requests = "^2.28.1"
+aiopyston = "^1.2.1"
 
 [tool.poetry.dev-dependencies]
 
