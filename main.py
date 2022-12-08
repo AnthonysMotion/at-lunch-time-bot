@@ -1,21 +1,20 @@
 # Discord
 import discord
-from discord import app_commands
 from discord.ext import commands
 
 # Misc
+import os
 import json
+from replit import db
 
+bot = commands.Bot()
 
-intents = discord.Intents.default()
-bot = discord.Client(intents=intents)
-tree = app_commands.CommandTree(bot)
+@bot.slash_command(name="test", guild_ids=[489331089341415454])
+async def test(ctx): 
+    await ctx.respond("hi")
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send('nigga')
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[0:-3]}')
 
-with open('config.json', 'r') as cfg:
-  data = json.load(cfg) 
-
-bot.run(data["token"])
+bot.run(os.environ['token'])
