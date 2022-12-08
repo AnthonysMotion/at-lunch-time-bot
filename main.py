@@ -1,4 +1,5 @@
 import os
+from keep_alive import keep_alive
 
 # Discord
 import discord
@@ -30,5 +31,10 @@ class LunchTime(commands.Bot):
     print(f'{self.user} has connected to Discord')
   print("bot ready")
 
+keep_alive()
 bot = LunchTime()
-bot.run(os.environ['token'])
+try:
+  bot.run(os.environ['token'])
+except discord.errors.HTTPException:
+  os.system('kill 1')
+  os.system("python restarter.py")

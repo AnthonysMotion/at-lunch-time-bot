@@ -10,6 +10,16 @@ class misc(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
 
+
+  @app_commands.command(name = "about", description = "About Lunch Time")
+  async def about(self, interaction: discord.Interaction):
+    em = discord.Embed(title = "About", description = "Lunch Time is an easy to use, multipurpose bot that aims to bring outside functions into Discord through the use of slash commands.\n\nFor example: instead of opening Google and searching up 'How far are we into the year?' then finding a website, just type </yearprogress:1050348276030898196> and you'll get the same result quicker.\n\nGet started: </help:1050366133917720647>")
+    em.set_author(name = "Lunch Time", url = 'https://anthonythach.com/', icon_url = 'https://i.imgur.com/E0u8ceW.png')
+    em.set_footer(text='anthonythach.com',icon_url="https://i.imgur.com/BjKLqF7.png")
+    em.set_image(url='https://media.tenor.com/i-xS-A_DTCEAAAAM/pizza-food.gif')
+    em.set_thumbnail(url='https://i.imgur.com/E0u8ceW.png')
+    await interaction.response.send_message(embed = em)
+  
   @app_commands.command(name = "yearprogress", description = "Calculates how far we are into the current year")
   async def yearprogress(self, interaction: discord.Interaction):
     current_date = datetime.datetime.now()
