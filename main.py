@@ -1,20 +1,34 @@
+import os
+
 # Discord
 import discord
 from discord.ext import commands
+from discord import app_commands
 
-# Misc
-import os
-import json
-from replit import db
+activity = discord.Streaming(name="/help", url="https://www.twitch.tv/xqc")
 
-bot = commands.Bot()
+class LunchTime(commands.Bot):
+  def __init__(self):
+    super().__init__(
+      command_prefix = ',',
+      intents = discord.Intents.all(),
+      application_id = 1050257284204347394,
+      activity=activity
+    )
 
-@bot.slash_command(name="test", guild_ids=[489331089341415454])
-async def test(ctx): 
-    await ctx.respond("hi")
+    self.initial_extensions = [
+      "cogs.misc",
+      "cogs.help"
+    ]
+  
+  async def setup_hook(self):
+    for ext in self.initial_extensions:
+      await self.load_extension(ext)
+    await bot.tree.sync(guild = discord.Object(id = 489331089341415454))
+  
+  async def on_ready(self):
+    print(f'{self.user} has connected to Discord')
+  print("bot ready")
 
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        bot.load_extension(f'cogs.{filename[0:-3]}')
-
+bot = LunchTime()
 bot.run(os.environ['token'])
