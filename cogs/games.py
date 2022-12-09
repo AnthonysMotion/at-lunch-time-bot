@@ -1,5 +1,9 @@
 import datetime
+from datetime import datetime
 import random
+from replit import db
+import requests
+import json
 
 import discord
 from discord import app_commands
@@ -30,9 +34,124 @@ class games(commands.Cog):
     else:
       await interaction.response.send_message(f"You chose {user_choice} and I chose {bot_choice}. It's a tie!")
 
+  # anilist pair
+  @app_commands.command(name = "alpair", description = "Pair your AniList.com account")
+  async def alpair(self, interaction: discord.Interaction, username: str):
+    id = interaction.user.id
+    db[f"{id}"] = f"{username}"
+    acc = db[f"{id}"]
+    await interaction.response.send_message(f"You're now paired to AniList as '{acc}'")
 
+  # anilist unpair
+  @app_commands.command(name = "alunpair", description = "Unpair your AniList.com account")
+  async def alunpair(self, interaction: discord.Interaction):
+    id = interaction.user.id
+    name = db[f"{id}"]
+    await interaction.response.send_message(f"You're now unpaired from {name}")
+    del db[f"{id}"]
 
+  # anilist acc
+  @app_commands.command(name = "alacc", description = "Check what AniList account you're currently paired to")
+  async def alacc(self, interaction: discord.Interaction):
+    id = interaction.user.id
+    acc = db[f"{id}"]
+    await interaction.response.send_message(f"You're paired to {acc}")
 
+  # anilist profile
+  @app_commands.command(name = "alprofile", description = "Check your AniList profile")
+  async def alprofile(self, interaction: discord.Interaction):
+    id = interaction.user.id
+    query = '''
+    query ($name: String) {
+        User (name: $name) {
+            id
+            name
+            about
+            donatorTier
+            unreadNotificationCount
+            createdAt
+            avatar {
+              large
+            }
+            statistics {
+              anime {
+                count
+                episodesWatched
+                minutesWatched
+                meanScore
+              }
+              manga {
+                count
+                chaptersRead
+                volumesRead
+              }
+            }
+        }
+    }
+    '''
+    variables = {
+        'name': db[f"{id}"],
+    }
+    url = 'https://graphql.anilist.co'
+    
+    # Make the HTTP Api request
+    response = requests.post(url, json={'query': query, 'variables': variables})
+    data = json.loads(response.text)
+    
+    name = data['data']['User']['name']
+    avatar = data['data']['User']['avatar']['large']
+    count = data['data']['User']['statistics']['anime']['count']
+    episodeswatched = data['data']['User']['statistics']['anime']['episodesWatched']
+    minuteswatched = data['data']['User']['statistics']['anime']['minutesWatched']
+    days = round(minuteswatched / 1440)
+    mangacount = data['data']['User']['statistics']['manga']['count']
+    chaptersRead = data['data']['User']['statistics']['manga']['chaptersRead']
+    volumesRead = data['data']['User']['statistics']['manga']['volumesRead']
+    meanScore = data['data']['User']['statistics']['anime']['meanScore']
+    donatorTier = data['data']['User']['donatorTier']
+    createdAt = data['data']['User']['createdAt']
+    date = datetime.fromtimestamp(createdAt).strftime("%Y-%m-%d")
+    year = date[:4]
+    monthtemp = str(date[5:-3])
+    day = date[8:]
+    month = 'None'
+    if monthtemp == '01':
+      month = 'January'
+    elif monthtemp == '02':
+      month = 'February'
+    elif monthtemp == '03':
+      month = 'March'
+    elif monthtemp == '04':
+      month = 'April'
+    elif monthtemp == '05':
+      month = 'May'
+    elif monthtemp == '06':
+      month = 'June'
+    elif monthtemp == '07':
+      month = 'July'
+    elif monthtemp == '08':
+      month = 'August'
+    elif monthtemp == '09':
+      month = 'September'
+    elif monthtemp == '10':
+      month = 'October'
+    elif monthtemp == '11':
+      month == 'November'
+    else:
+      month == 'December'
+    em = discord.Embed(title = name,description=f"Donator Tier: {str(donatorTier)}\nAccount Creation Date: {int(day)} {month} {year}")
+    em.set_thumbnail(url = avatar)
+    em.set_author(name = name, url = avatar, icon_url = avatar)
+    em.add_field(name = "**Total Anime**", value = count)
+    em.add_field(name = "**Episodes Watched**", value = episodeswatched)
+    em.add_field(name = "**Days Watched**", value = days)
+    em.add_field(name = "**Total Manga**", value = mangacount)
+    em.add_field(name = "**Chapters Read**", value = chaptersRead)
+    em.add_field(name = "**Volumes Read**", value = volumesRead)
+    em.add_field(name = "**Mean Score**", value = meanScore)
+    await interaction.response.send_message(embed = em)
+
+      
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:
