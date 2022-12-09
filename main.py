@@ -23,7 +23,8 @@ class LunchTime(commands.Bot):
       "cogs.misc",
       "cogs.help",
       "cogs.games",
-      "cogs.economy"
+      "cogs.economy",
+      "cogs.fun"
     ]
 
   async def setup_hook(self):
