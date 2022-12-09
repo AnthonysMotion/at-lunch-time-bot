@@ -1,6 +1,9 @@
 import datetime
 import requests
 from pyston import PystonClient, File #upm package(aiopyston)
+from chatgpt import Conversation
+import json
+import asyncio
 
 from discord import ui
 import discord
@@ -51,8 +54,15 @@ class misc(commands.Cog):
     output = await client.execute(f"{lang}", [File(f"{code}")])
     await interaction.response.send_message(f"```{output}```")
 
-
-    
+  # /chatgpt
+  @app_commands.command(name = "chatgpt", description = "Talk to ChatGPT through Discord")
+  async def chatgpt(self, interaction: discord.Interaction, message: str):
+      conversation = Conversation('cogs/config.json')
+      await interaction.response.defer()
+      reply = conversation.chat(message)
+      print(reply)
+      await interaction.followup.send(f"{reply}")
+  
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:
