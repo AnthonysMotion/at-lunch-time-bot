@@ -12,7 +12,7 @@ class help(commands.Cog):
 
   @app_commands.command(name = "help", description = "List all commands, or get help for a specific command")
   @app_commands.describe(command = "Insert the command you need help with, or insert 'all' for all commands")
-  @app_commands.choices(command=[Choice(name="all",value='all'),Choice(name="/define",value='define'),Choice(name="/yearprogress",value='yearprogress'),Choice(name="/run",value='run'),Choice(name="/rps",value='rps'),Choice(name="/anilist",value='anilist')])
+  @app_commands.choices(command=[Choice(name="all",value='all'),Choice(name="/define",value='define'),Choice(name="/yearprogress",value='yearprogress'),Choice(name="/run",value='run'),Choice(name="/rps",value='rps'),Choice(name="/anilist",value='anilist'),Choice(name="/chatgpt",value='chatgpt')])
   async def help(self, interaction: discord.Interaction, command: str):
     if command == 'all':
       await interaction.response.send_message("```ahkGeneral commands\n  /define\n  /yearprogress\n  /run\n  /rps\nAniList commands\n  /alpair\n  /alunpair\n  /alacc\n  /alprofile```", ephemeral=True)
@@ -24,6 +24,8 @@ class help(commands.Cog):
       await interaction.response.send_message("```ahk\nExample usage:\n  /run <lang> <code>\n  /run python print('Hello world')```", ephemeral=True)
     if command == 'rps':
       await interaction.response.send_message("```ahk\nExample usage:\n  /rps rock```", ephemeral=True)
+    if command == 'chatgpt':
+      await interaction.response.send_message("```ahk\nExample usage:\n  /chatgpt hello```", ephemeral=True)
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:
