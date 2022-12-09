@@ -10,7 +10,7 @@ class help(commands.Cog):
 
   @app_commands.command(name = "help", description = "List all commands, or get help for a specific command")
   @app_commands.describe(command = "Insert the command you need help with, or insert 'all' for all commands")
-  @app_commands.choices(command=[Choice(name="all",value='all')])
+  @app_commands.choices(command=[Choice(name="all",value='all'),Choice(name="/define",value='define'),Choice(name="/yearprogress",value='yearprogress'),Choice(name="/run",value='run')])
   async def help(self, interaction: discord.Interaction, command: str):
     if command == 'all':
       await interaction.response.send_message("```ahk\n  /define\n  /yearprogress\n  /run```", ephemeral=True)

@@ -19,7 +19,8 @@ class LunchTime(commands.Bot):
 
     self.initial_extensions = [
       "cogs.misc",
-      "cogs.help"
+      "cogs.help",
+      "cogs.games"
     ]
   
   async def setup_hook(self):
