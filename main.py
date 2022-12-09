@@ -1,11 +1,11 @@
 import os
 from keep_alive import keep_alive
 
-# Discord
 import discord
 from discord.ext import commands
 from discord import app_commands
 
+# pref
 activity = discord.Streaming(name="/help", url="https://www.twitch.tv/xqc")
 
 class LunchTime(commands.Bot):
@@ -17,23 +17,31 @@ class LunchTime(commands.Bot):
       activity=activity
     )
 
+    # init cogs
+    
     self.initial_extensions = [
       "cogs.misc",
       "cogs.help",
-      "cogs.games"
+      "cogs.games",
+      "cogs.economy"
     ]
-  
+
   async def setup_hook(self):
     for ext in self.initial_extensions:
       await self.load_extension(ext)
     await bot.tree.sync(guild = discord.Object(id = 489331089341415454))
+
+  # bot ready
   
   async def on_ready(self):
     print(f'{self.user} has connected to Discord')
   print("bot ready")
 
+# start bot
+
 keep_alive()
 bot = LunchTime()
+    
 try:
   bot.run(os.environ['token'])
 except discord.errors.HTTPException:

@@ -1,8 +1,10 @@
+import datetime
+
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-import datetime
+
 
 class help(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
@@ -20,6 +22,8 @@ class help(commands.Cog):
       await interaction.response.send_message("```ahk\nExample usage:\n  /yearprogress```", ephemeral=True)
     if command == 'run' or command == 'Run':
       await interaction.response.send_message("```ahk\nExample usage:\n  /run <lang> <code>\n  /run python print('Hello world')```", ephemeral=True)
+
+# cog setup
 
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(

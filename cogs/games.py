@@ -1,15 +1,17 @@
+import datetime
+import random
+
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
 
-import datetime
-import random
-
 class games(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
 
+  # /rps
+  
   @app_commands.command(name = "rps", description = "Play rock paper scissors vs Lunch Time")
   @app_commands.choices(choice=[Choice(name="Rock",value='rock'),Choice(name="Paper",value='Paper'),Choice(name="Scissors",value='scissors')])
   async def help(self, interaction: discord.Interaction, choice: str):
@@ -27,6 +29,11 @@ class games(commands.Cog):
       await interaction.response.send_message(f'You chose {user_choice} and I chose {bot_choice}. You lose!')
     else:
       await interaction.response.send_message(f"You chose {user_choice} and I chose {bot_choice}. It's a tie!")
+
+
+
+
+# cog setup
 
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(

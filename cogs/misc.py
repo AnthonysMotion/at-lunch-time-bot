@@ -1,16 +1,19 @@
+import datetime
+import requests
+from pyston import PystonClient, File #upm package(aiopyston)
+
+from discord import ui
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-import datetime
-import requests
-from pyston import PystonClient, File #upm package(aiopyston)
-from discord import ui
 
 class misc(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
 
+  # /about
+  
   @app_commands.command(name = "about", description = "About Lunch Time")
   async def about(self, interaction: discord.Interaction):
     em = discord.Embed(title = "About", description = "Lunch Time is an easy to use, multipurpose bot that aims to bring outside functions into Discord through the use of slash commands; all packaged in a lightweight bot with a cat having lunch as its mascot.\n\nFor example: instead of opening Google and searching up 'How far are we into the year?' then finding a website, just type </yearprogress:1050348276030898196> and you'll get the same result quicker.\n\nFollow development: https://github.com/AnthonysMotion/at-lunch-time-bot\n\nGet started: </help:1050366133917720647>")
@@ -19,6 +22,8 @@ class misc(commands.Cog):
     em.set_image(url='https://media.tenor.com/i-xS-A_DTCEAAAAM/pizza-food.gif')
     em.set_thumbnail(url='https://i.imgur.com/E0u8ceW.png')
     await interaction.response.send_message(embed = em)
+
+  # /yearprogress
   
   @app_commands.command(name = "yearprogress", description = "Calculates how far we are into the current year")
   async def yearprogress(self, interaction: discord.Interaction):
@@ -29,18 +34,26 @@ class misc(commands.Cog):
     progress = round((days_passed / total_days) * 100, 2)
     await interaction.response.send_message(f"We are {progress}% into the year")
 
+  # /define
+    
   @app_commands.command(name = "define", description = "Defines any given word in the English dictionary")
   async def define(self, interaction: discord.Interaction, word: str):
     response = requests.get(f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}')
     data = response.json()
     definition = data[0]['meanings'][0]['definitions'][0]['definition']
     await interaction.response.send_message(f"```Definition of {word.title()}``` {definition}")
+
+  # /run
   
   @app_commands.command(name = "run", description = "Runs multiple lines of code in 20+ languages, all in Discord")
   async def run(self, interaction: discord.Interaction, lang: str, code: str):
     client = PystonClient()
     output = await client.execute(f"{lang}", [File(f"{code}")])
     await interaction.response.send_message(f"```{output}```")
+
+
+    
+# cog setup
 
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(
