@@ -1,4 +1,6 @@
 import datetime
+import random
+from replit import db
 
 import discord
 from discord import app_commands
@@ -9,7 +11,23 @@ class economy(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
 
+  @app_commands.command(name = "bal", description = "Check your lunch token balance")
+  async def bal(self, interaction: discord.Interaction):
+    id = interaction.user.id
+    t = random.randrange(0,10)
+    try:
+      value = db[f"{id}_bal"]
+    except KeyError:
+      db[f"{id}_bal"] = 0
+      value = db[f"{id}_bal"]
+    await interaction.response.send_message(f"You have {value} lunch tokens")
 
+  @app_commands.command(name = "beg", description = "Gain between 0 - 10 lunch tokens")
+  async def beg(self, interaction: discord.Interaction):
+    id = interaction.user.id
+    t = random.randrange(0,10)
+    db[f"{id}_bal"] += int(t)
+    await interaction.response.send_message(f"You gained {str(t)} lunch tokens!")
 
 # cog setup
 
