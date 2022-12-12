@@ -57,12 +57,26 @@ class misc(commands.Cog):
   # /chatgpt
   @app_commands.command(name = "chatgpt", description = "Talk to ChatGPT through Discord")
   async def chatgpt(self, interaction: discord.Interaction, message: str):
-      conversation = Conversation('cogs/config.json')
-      await interaction.response.defer()
-      reply = conversation.chat(message)
-      print(reply)
-      await interaction.followup.send(f"{reply}")
-  
+    conversation = Conversation('cogs/config.json')
+    await interaction.response.defer()
+    reply = conversation.chat(message)
+    print(reply)
+    await interaction.followup.send(f"{reply}")
+
+  @app_commands.command(name = "convertcur", description = "Convert currency with up to date exchange rates")
+  #@app_commands.describe(command = "To convert 100 NZ Dollars to JP YEN: /convertcur 100 NZD YEN")
+  async def convertcur(self, interaction: discord.Interaction, amount: int, _from: str, _to: str):
+    url = f"https://api.apilayer.com/exchangerates_data/convert?to={_to}&from={_from}&amount={amount}"
+    payload = {}
+    headers= {
+      "apikey": "cQqGdzwECAIXQSqKdDEBPpH9HjJWWVKr"
+    }
+    response = requests.request("GET", url, headers=headers, data = payload)
+    data = response.json()
+    converted_amount = data['result']
+    await interaction.response.send_message(f"{amount} {_from.upper()} to {_to.upper()} is {converted_amount}")
+    
+    
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:
