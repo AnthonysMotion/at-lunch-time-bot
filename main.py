@@ -31,6 +31,7 @@ class LunchTime(commands.Bot):
     for ext in self.initial_extensions:
       await self.load_extension(ext)
     await bot.tree.sync(guild = discord.Object(id = 489331089341415454))
+    await bot.tree.sync(guild = discord.Object(id = 1040458176123916318))
 
   # bot ready
   

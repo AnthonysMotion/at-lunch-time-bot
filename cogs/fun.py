@@ -16,5 +16,4 @@ class fun(commands.Cog):
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(
     fun(bot),
-    guilds = [discord.Object(id = 489331089341415454)]
-  )
+    guilds = [discord.Object(id = 489331089341415454), discord.Object(id = 1040458176123916318)])
