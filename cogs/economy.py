@@ -29,6 +29,17 @@ class economy(commands.Cog):
     db[f"{id}_bal"] += int(t)
     await interaction.response.send_message(f"You gained {str(t)} lunch tokens!")
 
+  @app_commands.command(name = "coinflip", description = "Bet on a coinflip to potentially 2x your Lunch Tokens")
+  async def coinflip(self, interaction: discord.Interaction, amount: int):
+    id = interaction.user.id
+    t = random.randrange(0,2)
+    if t == 1:
+      db[f"{id}_bal"] -= amount
+      await interaction.response.send_message(f"Unlucky. You lost {str(amount)} lunch tokens")
+    else:
+      db[f"{id}_bal"] += amount
+      await interaction.response.send_message(f"Congratulations! You won {str(amount)} lunch tokens")
+      
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:
