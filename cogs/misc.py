@@ -91,7 +91,10 @@ class misc(commands.Cog):
     for div in productDivs:
       link = div.find('a')['href']
       ye = div.find('a')['title']
-    await interaction.response.send_message(f'{ye}: https://mangabuddy.com/{link}')
+    try:
+      await interaction.response.send_message(f'{ye}: https://mangabuddy.com/{link}')
+    except UnboundLocalError:
+      await interaction.response.send_message('No search results')
     
 # cog setup
 
