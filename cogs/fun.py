@@ -1,4 +1,6 @@
 import datetime
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 import discord
 from discord import app_commands

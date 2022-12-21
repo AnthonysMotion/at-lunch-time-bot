@@ -4,12 +4,15 @@ from pyston import PystonClient, File #upm package(aiopyston)
 from chatgpt import Conversation
 import json
 import asyncio
+from bs4 import BeautifulSoup
+import re
 
 from discord import ui
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
+from bs4 import BeautifulSoup
 
 class misc(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
@@ -75,7 +78,20 @@ class misc(commands.Cog):
     data = response.json()
     converted_amount = data['result']
     await interaction.response.send_message(f"{amount} {_from.upper()} to {_to.upper()} is {converted_amount}")
-    
+
+  # /mangalatest
+  
+  @app_commands.command(name = "mangalatest", description = "Check MangaBuddy for latest chapter of selected manga")
+  async def mangalatest(self, interaction: discord.Interaction, title: str):
+    link = ''
+    url = f'https://mangabuddy.com/{title.replace(" ","-")}'
+    resp = requests.get(url)
+    soup = BeautifulSoup(resp.text, 'lxml')
+    productDivs = soup.findAll('ul', attrs={'class' : 'chapter-list'})
+    for div in productDivs:
+      link = div.find('a')['href']
+      ye = div.find('a')['title']
+    await interaction.response.send_message(f'{ye}: https://mangabuddy.com/{link}')
     
 # cog setup
 

@@ -15,6 +15,9 @@ replit = "^3.2.5"
 openai = "^0.25.0"
 revChatGPT = "^0.0.33"
 chatgpt = "^1.2212.1"
+selenium = "^4.7.2"
+bs4 = "^0.0.1"
+lxml = "^4.9.2"
 
 [tool.poetry.dev-dependencies]
 
