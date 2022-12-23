@@ -10,7 +10,7 @@
 ## About
 Lunch Time is an easy to use, multipurpose and customizable bot that aims to bring a plethora of outside functions into Discord; Packaged in a lightweight bot built on top of discord.py, Python and JavaScript. Through Replit.com and the use of Replit's functions like Replit DB, Lunch Time becomes extremely easy to use and build on top of for the beginner developer.
 
-As of December 2022: aside from standard commands,the bot includes unique commands for:
+As of December 2022: aside from standard commands, the bot includes unique commands for:
   - Bringing AI into Discord conversation through OpenAI
   - Updating AniList activity through Discord
   - Bringing MangaBuddy functions into Discord
@@ -29,3 +29,5 @@ Packages used:
 API used that may require your own key/auth
   - Google/Api Layer Exchange Rates
   - AniList
+
+Developed by Anthony Thach: https://anthonythach.com/
