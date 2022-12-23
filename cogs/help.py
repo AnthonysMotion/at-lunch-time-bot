@@ -10,22 +10,9 @@ class help(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
 
-  @app_commands.command(name = "help", description = "List all commands, or get help for a specific command")
-  @app_commands.describe(command = "Insert the command you need help with, or insert 'all' for all commands")
-  @app_commands.choices(command=[Choice(name="all",value='all'),Choice(name="/define",value='define'),Choice(name="/yearprogress",value='yearprogress'),Choice(name="/run",value='run'),Choice(name="/rps",value='rps'),Choice(name="/anilist",value='anilist'),Choice(name="/chatgpt",value='chatgpt')])
-  async def help(self, interaction: discord.Interaction, command: str):
-    if command == 'all':
-      await interaction.response.send_message("```ahkGeneral commands\n  /define\n  /yearprogress\n  /run\n  /rps\nAniList commands\n  /alpair\n  /alunpair\n  /alacc\n  /alprofile```", ephemeral=True)
-    if command == 'define' or command == 'Define':
-      await interaction.response.send_message("```ahk\nExample usage:\n  /define <word>\n  /define discord```", ephemeral=True)
-    if command == 'yearprogress' or command == 'YearProgress' or command == 'Yearprogress':
-      await interaction.response.send_message("```ahk\nExample usage:\n  /yearprogress```", ephemeral=True)
-    if command == 'run' or command == 'Run':
-      await interaction.response.send_message("```ahk\nExample usage:\n  /run <lang> <code>\n  /run python print('Hello world')```", ephemeral=True)
-    if command == 'rps':
-      await interaction.response.send_message("```ahk\nExample usage:\n  /rps rock```", ephemeral=True)
-    if command == 'chatgpt':
-      await interaction.response.send_message("```ahk\nExample usage:\n  /chatgpt hello```", ephemeral=True)
+  @app_commands.command(name = "help", description = "List all commands")
+  async def help(self, interaction: discord.Interaction):
+    await interaction.response.send_message("```ahk\nGeneral\n  /define - Define any word in the English dictionary\n  /yearprogress - Show the progress through the current year in %\n  /run - Run code in any programming language\n  /rps - Play rock paper scissors\n  /chatgpt - Talk with ChatGPT through Discord\n  /convertcur - Convert currencies with accurate, up to date rates\n\nAnime & Manga\n  /mangalatest - Show the latest chapter of any manga, and a link to read\n\nAniList\n  /alpair - Pair an AL account\n  /alunpair - Unpair an AL account\n  /alprofile - Display basic info of your AL profile\n\nEconomy\n  /beg - Gain 0 to 10 tokens\n  /bal - Check token balance\n  /coinflip - 50/50 chance to win or lose your gamble```", ephemeral=True)
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:

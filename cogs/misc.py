@@ -29,6 +29,12 @@ class misc(commands.Cog):
     em.set_thumbnail(url='https://i.imgur.com/E0u8ceW.png')
     await interaction.response.send_message(embed = em)
 
+  # /ping
+  @app_commands.command(name = "ping", description = "Show bot latency")
+  async def about(self, interaction: discord.Interaction):
+    ping = self.bot.latency
+    await interaction.response.send_message(f"{round(ping * 1000)}ms")
+
   # /yearprogress
   
   @app_commands.command(name = "yearprogress", description = "Calculates how far we are into the current year")
@@ -80,10 +86,10 @@ class misc(commands.Cog):
     await interaction.response.send_message(f"{amount} {_from.upper()} to {_to.upper()} is {converted_amount}")
 
   # /mangalatest
+
   
   @app_commands.command(name = "mangalatest", description = "Check MangaBuddy for latest chapter of selected manga")
   async def mangalatest(self, interaction: discord.Interaction, title: str):
-    link = ''
     url = f'https://mangabuddy.com/{title.replace(" ","-")}'
     resp = requests.get(url)
     soup = BeautifulSoup(resp.text, 'lxml')
@@ -92,8 +98,13 @@ class misc(commands.Cog):
       link = div.find('a')['href']
       ye = div.find('a')['title']
     try:
-      await interaction.response.send_message(f'{ye}: https://mangabuddy.com/{link}')
-    except UnboundLocalError:
+      daysago = soup.find('time', attrs={'class': 'chapter-update'}).get_text()
+    except:
+      await interaction.response.send_message('No search results')
+
+    try:
+      await interaction.response.send_message(f'**{ye}**\nLast Updated: `{daysago}`\n\n Read: https://mangabuddy.com/{link}')
+    except:
       await interaction.response.send_message('No search results')
     
 # cog setup
