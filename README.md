@@ -8,7 +8,7 @@
 <h3 align=center>A fully customizable bot built with <a href=https://github.com/Rapptz/discord.py>discord.py</a></h3>
 
 ## About
-Lunch Time is an easy to use, multipurpose and customizable bot that aims to bring a plethora of outside functions into Discord; Packaged in a lightweight bot built on top of discord.py, Python and JavaScript. Through Replit.com and the use of Replit's functions like Replit DB, Lunch Time becomes extremely easy to use and build on top of for the beginner developer.
+Lunch Time is an easy to use, multipurpose and customizable bot that aims to bring a plethora of outside functions into Discord; Packaged in a lightweight bot built on top of discord.py, Python. Through Replit.com and the use of Replit's functions like Replit DB, Lunch Time becomes extremely easy to use and build on top of for the beginner developer.
 
 As of December 2022: aside from standard commands, the bot includes unique commands for:
   - Bringing AI into Discord conversation through OpenAI
