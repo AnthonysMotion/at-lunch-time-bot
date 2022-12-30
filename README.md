@@ -16,6 +16,7 @@ As of December 2022: aside from standard commands, the bot includes unique comma
   - Bringing MangaBuddy functions into Discord
   - Currency conversion with over 150+ currencies and with accurate exchange rates
   - Defining any word in the English dictionary
+  - Learning Japanese (All Hiragana, Katakana and common Kanji)
   
 ## Other
 
