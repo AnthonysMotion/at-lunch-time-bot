@@ -151,10 +151,94 @@ class games(commands.Cog):
     em.add_field(name = "**Mean Score**", value = meanScore)
     await interaction.response.send_message(embed = em)
 
-      
+  # /mangaread
+  @app_commands.command(name = "mangaread", description = "Continue reading where you left off")
+  async def mangaread(self, interaction: discord.Interaction, title: str):
+    id = interaction.user.id
+
+    # Here we define our query as a multi-line string
+    query = '''
+    query ($search: String, $name: String) {
+      User (name: $name) {
+        id
+        name
+      }
+      Media (search: $search, type: MANGA) {
+        id
+        title {
+          romaji
+          english
+          native
+        }
+        mediaListEntry {
+          progress
+        }
+      }
+    }
+    '''
+    
+    # Define our query variables and values that will be used in the query request
+    variables = {
+        'search': title,
+        'name': db[f"{id}"]
+    }
+    
+    url = 'https://graphql.anilist.co'
+
+    
+    # Make the HTTP Api request
+    response = requests.post(url, json={'query': query, 'variables': variables})
+    data = json.loads(response.text)
+
+    # Define our query variables and values that will be used in the query request
+    variables = {
+        'userId': data['data']['User']['id'],
+        'mediaId': data['data']['Media']['id']
+    }
+
+    # Here we define our query as a multi-line string
+    query = '''
+    query ($userId: Int, $mediaId: Int) {
+      MediaList (userId: $userId, mediaId: $mediaId) {
+        progress
+      }
+    }
+    '''
+    
+    url = 'https://graphql.anilist.co'
+    
+    # Make the HTTP Api request
+    response = requests.post(url, json={'query': query, 'variables': variables})
+    data = json.loads(response.text)
+    progress = str((data['data']['MediaList']['progress']) + 1)
+
+    url = f'https://mangabuddy.com/{title.replace(" ","-")}'
+    
+    await interaction.response.send_message(f"{url}/chapter-{progress}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 # cog setup
 
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(
     games(bot),
     guilds = [discord.Object(id = 489331089341415454), discord.Object(id = 1040458176123916318)])
+

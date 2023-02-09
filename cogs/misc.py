@@ -14,6 +14,8 @@ from discord.ext import commands
 from discord.app_commands import Choice
 from bs4 import BeautifulSoup
 
+import shortcut
+
 class misc(commands.Cog):
   def __init__(self, bot: commands.Bot) -> None:
     self.bot = bot
@@ -32,45 +34,24 @@ class misc(commands.Cog):
   # /ping
   @app_commands.command(name = "ping", description = "Show bot latency")
   async def ping(self, interaction: discord.Interaction):
-    ping = self.bot.latency
-    await interaction.response.send_message(f"{round(ping * 1000)}ms")
+    await interaction.response.send_message(f"{round(self.bot.latency * 1000)}ms")
 
   # /yearprogress
-  
   @app_commands.command(name = "yearprogress", description = "Calculates how far we are into the current year")
   async def yearprogress(self, interaction: discord.Interaction):
-    current_date = datetime.datetime.now()
-    year_start = datetime.datetime(current_date.year, 1, 1)
-    days_passed = (current_date - year_start).days
-    total_days = 365 if current_date.year % 4 != 0 else 366
-    progress = round((days_passed / total_days) * 100, 2)
-    await interaction.response.send_message(f"We are {progress}% into the year")
+    await interaction.response.send_message(f"We are {shortcut.yearprogress_sc()}% into the year")
 
   # /define
-    
   @app_commands.command(name = "define", description = "Defines any given word in the English dictionary")
   async def define(self, interaction: discord.Interaction, word: str):
-    response = requests.get(f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}')
-    data = response.json()
-    definition = data[0]['meanings'][0]['definitions'][0]['definition']
-    await interaction.response.send_message(f"```Definition of {word.title()}``` {definition}")
+    await interaction.response.send_message(shortcut.define_sc(word))
 
   # /run
-  
   @app_commands.command(name = "run", description = "Runs multiple lines of code in 20+ languages, all in Discord")
   async def run(self, interaction: discord.Interaction, lang: str, code: str):
     client = PystonClient()
     output = await client.execute(f"{lang}", [File(f"{code}")])
     await interaction.response.send_message(f"```{output}```")
-
-  # /chatgpt
-  @app_commands.command(name = "chatgpt", description = "Talk to ChatGPT through Discord")
-  async def chatgpt(self, interaction: discord.Interaction, message: str):
-    conversation = Conversation('cogs/config.json')
-    await interaction.response.defer()
-    reply = conversation.chat(message)
-    print(reply)
-    await interaction.followup.send(f"{reply}")
 
   @app_commands.command(name = "convertcur", description = "Convert currency with up to date exchange rates")
   #@app_commands.describe(command = "To convert 100 NZ Dollars to JP YEN: /convertcur 100 NZD YEN")
@@ -86,8 +67,6 @@ class misc(commands.Cog):
     await interaction.response.send_message(f"{amount} {_from.upper()} to {_to.upper()} is {converted_amount}")
 
   # /mangalatest
-
-  
   @app_commands.command(name = "mangalatest", description = "Check MangaBuddy for latest chapter of selected manga")
   async def mangalatest(self, interaction: discord.Interaction, title: str):
     url = f'https://mangabuddy.com/{title.replace(" ","-")}'
@@ -101,14 +80,12 @@ class misc(commands.Cog):
       daysago = soup.find('time', attrs={'class': 'chapter-update'}).get_text()
     except:
       await interaction.response.send_message('No search results')
-
     try:
       await interaction.response.send_message(f'**{ye}**\nLast Updated: `{daysago}`\n\n Read: https://mangabuddy.com/{link}')
     except:
       await interaction.response.send_message('No search results')
     
 # cog setup
-
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(
     misc(bot),
